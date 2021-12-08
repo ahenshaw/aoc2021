@@ -1,7 +1,10 @@
 type Input = Vec<usize>;
 
 pub fn input_generator(input: &str) -> Input {
-    input.split(',').map(|x| x.parse::<usize>().unwrap()).collect()
+    input
+        .split(',')
+        .map(|x| x.parse::<usize>().unwrap())
+        .collect()
 }
 
 pub fn part1(input: &Input) -> usize {
@@ -13,12 +16,11 @@ pub fn part2(input: &Input) -> usize {
 }
 
 fn calc(input: &Input, num_days: usize) -> usize {
-    let mut swarm: std::collections::VecDeque<usize> = std::collections::VecDeque::from([0;9]);
+    let mut swarm = Vec::from([0; 9]);
     input.iter().for_each(|&f| swarm[f] += 1);
     for _day in 0..num_days {
-        let spawners = swarm.pop_front().unwrap();
-        swarm[6] += spawners;
-        swarm.push_back(spawners);
+        swarm.rotate_left(1);
+        swarm[6] += swarm[8];
     }
     swarm.iter().sum()
 }

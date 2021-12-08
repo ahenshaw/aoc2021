@@ -1,38 +1,53 @@
-use sscanf::scanf;
 use num::signum;
+use sscanf::scanf;
 
 const N: usize = 1000;
-type Input = Vec<(i32, i32, i32, i32)>;
-type Grid = [[usize;N];N];
+type Matrix = [[usize; N]; N];
+
+#[derive(PartialEq, Clone, Copy)]
+pub struct Point {
+    x: i32, 
+    y: i32
+}
+type Input = Vec<(Point, Point)>;
 
 pub fn input_generator(input: &str) -> Input {
-    input.lines().map(|line| {
-        scanf!(line, "{},{} -> {},{}", i32, i32, i32, i32).unwrap()
-    }).collect()
+    input
+        .lines()
+        .map(|line| {
+            let (x1, y1, x2, y2) = scanf!(line, "{},{} -> {},{}", i32, i32, i32, i32).unwrap();
+            (Point{x: x1, y:y1}, Point{x: x2, y: y2})
+        })
+        .collect()
 }
 
-fn draw_line(grid: &mut Grid, x1: i32, y1: i32, x2: i32, y2: i32) {
-    let dx = signum(x2 - x1);
-    let dy = signum(y2 - y1);
-    let mut x = x1;
-    let mut y = y1;
+/// Draw horizontal, vertical, or strictly diagonal lines into a Matrix
+fn draw_line(grid: &mut Matrix, start: Point, end: Point) {
+    let dx = signum(end.x - start.x);
+    let dy = signum(end.y - start.y);
+    let mut p: Point = start;
     loop {
-        grid[y as usize][x as usize] += 1;
-        if x == x2 && y == y2 {
+        grid[p.y as usize][p.x as usize] += 1;
+        if p == end {
             break
         }
-        x += dx; y += dy;
+        p.x += dx;
+        p.y += dy;
     }
 }
 
-pub fn part1(input: &Input) -> usize {
-    let mut grid: Grid = [[0; N]; N];
-    input.iter().for_each(|(x1, y1, x2, y2)| if x1==x2 || y1==y2 {draw_line(&mut grid, *x1, *y1, *x2, *y2)});
+pub fn part1(lines: &Input) -> usize {
+    let mut grid: Matrix = [[0; N]; N];
+    lines.iter()
+        .filter(|(start, end)| start.x == end.x || start.y == end.y)  // only draw horizontal or vertical lines
+        .for_each(|(start, end)| draw_line(&mut grid, *start, *end));
     grid.iter().flatten().filter(|&x| *x >= 2).count()
 }
 
 pub fn part2(input: &Input) -> usize {
-    let mut grid: Grid = [[0; N]; N];
-    input.iter().for_each(|(x1, y1, x2, y2)| draw_line(&mut grid, *x1, *y1, *x2, *y2));
+    let mut grid: Matrix = [[0; N]; N];
+    input
+        .iter()
+        .for_each(|(start, end)| draw_line(&mut grid, *start, *end));
     grid.iter().flatten().filter(|&x| *x >= 2).count()
 }

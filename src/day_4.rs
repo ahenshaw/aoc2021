@@ -11,9 +11,9 @@ impl Card {
     }
 
     fn is_winner(&self) -> bool {
-        let row_winner = self.0.chunks(5).any(|row| row.iter().all(|&x| x==CALLED));
+        let row_winner = self.0.chunks(5).any(|row| row.iter().all(|&x| x == CALLED));
         let mut cols: Vec<_> = (0..5).map(|i| (i..25).step_by(5)).collect();
-        let col_winner = cols.iter_mut().any(|col| col.all(|c|self.0[c] == CALLED));
+        let col_winner = cols.iter_mut().any(|col| col.all(|c| self.0[c] == CALLED));
         row_winner || col_winner
     }
 
@@ -29,9 +29,22 @@ pub struct Input {
 
 pub fn input_generator(input: &str) -> Input {
     let mut data = input.split("\n\n");
-    let balls = data.next().unwrap().split(',').map(|s| s.parse::<usize>().unwrap()).collect();
-    let cards: Vec<Card> = data.map(|s| Card(s.split_whitespace().map(|v| v.parse::<usize>().unwrap()).collect())).collect();
-    Input{balls, cards}
+    let balls = data
+        .next()
+        .unwrap()
+        .split(',')
+        .map(|s| s.parse::<usize>().unwrap())
+        .collect();
+    let cards: Vec<Card> = data
+        .map(|s| {
+            Card(
+                s.split_whitespace()
+                    .map(|v| v.parse::<usize>().unwrap())
+                    .collect(),
+            )
+        })
+        .collect();
+    Input { balls, cards }
 }
 
 pub fn part1(input: &Input) -> usize {
@@ -41,7 +54,9 @@ pub fn part1(input: &Input) -> usize {
     for ball in balls {
         for card in cards.iter_mut() {
             card.add_ball(&ball);
-            if card.is_winner() {return ball * card.score()}
+            if card.is_winner() {
+                return ball * card.score();
+            }
         }
     }
     unreachable!()

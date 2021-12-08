@@ -30,7 +30,7 @@ if to_insert not in lib:
     with open(libname, 'w') as fh:
         fh.write(output)
 
-# create a blank test data file
+# create a test data file with one integer
 fn = f"input/{year}/test{args.day}.txt"
 if not os.path.exists(fn):
-    open(fn, "w")
+    open(fn, "w").write('0')

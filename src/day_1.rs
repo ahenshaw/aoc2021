@@ -3,7 +3,10 @@ use sscanf::scanf;
 type Input = Vec<usize>;
 
 pub fn input_generator(input: &str) -> Input {
-    input.lines().map(|line| scanf!(line, "{}", usize).unwrap()).collect()
+    input
+        .lines()
+        .map(|line| scanf!(line, "{}", usize).unwrap())
+        .collect()
 }
 
 pub fn part1(input: &Input) -> usize {
