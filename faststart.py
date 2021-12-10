@@ -4,6 +4,7 @@ from time import sleep
 import webbrowser
 from subprocess import run
 
+print("Waiting for a new puzzle...")
 start = now = datetime.now()
 
 while start.day == now.day:
@@ -13,3 +14,4 @@ while start.day == now.day:
 # time to go!
 webbrowser.open(f'https://adventofcode.com/{now.year}/day/{now.day}')
 run(['cargo', 'aoc', 'input', '-d', f'{now.day}'])
+print("Done.")
