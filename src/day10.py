@@ -1,5 +1,4 @@
 PATH = 'input/2021/day10.txt'
-
 OPENER = '([{<'
 CLOSER = ')]}>'
 ERROR_SCORE = [3, 57, 1197, 25137]
@@ -11,9 +10,7 @@ for line in open(PATH):
     for ch in line.strip():
         if -1 != (index := OPENER.find(ch)):
             stack.append(index)
-        else:
-            index = CLOSER.find(ch)
-            if stack.pop() != index:
+        elif stack.pop() != (index := CLOSER.find(ch)):
                 total_error_score += ERROR_SCORE[index]
                 break
     else:

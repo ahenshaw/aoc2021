@@ -22,8 +22,7 @@ pub fn part2(input: &Input) -> usize {
         for ch in line {
             if let Some(index) = OPENER.find(*ch) {
                 stack.push(index)
-            };
-            if let Some(index) = CLOSER.find(*ch) {
+            } else if let Some(index) = CLOSER.find(*ch) {
                 if index != stack.pop().unwrap() {
                     total_error_score += ERROR_SCORE[index];
                     continue 'outer;
