@@ -12,17 +12,6 @@ pub fn input_generator(input: &str) -> Input {
     });
     tunnels
 }
-// def explore(edges, src, path, distinct, is_part_2):
-//     path.append(src)
-//     if src == 'end':
-//         distinct.add('-'.join(path))
-//         return
-//     for dest in edges[src]:
-//         lower = [x for x in path if not x.isupper()]
-//         any_doubles = len(lower) != len(set(lower))
-//         if dest != 'start':
-//             if dest.isupper() or (is_part_2 and not any_doubles and path.count(dest) < 2) or path.count(dest) < 1:
-//                 explore(edges, dest, path.copy(), distinct, is_part_2)
 
 fn explore(tunnels: &Input, src: &str, mut path: Vec<String>, distinct: &mut HashSet<String>, is_part_2: bool) {
     path.push(src.to_owned());
