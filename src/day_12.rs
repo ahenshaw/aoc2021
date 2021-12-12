@@ -31,20 +31,15 @@ fn explore(tunnels: &Input, src: &str, mut path: Vec<String>, distinct: &mut Has
         }
     }
 }
-pub fn part1(tunnels: &Input) -> usize {
+
+fn solve(tunnels: &Input, is_part_2: bool) -> usize {
     let mut distinct = HashSet::<String>::new();
     let path: Vec<String> = vec!["start".to_owned()];
     for dst in &tunnels["start"] {
-        explore(tunnels, &dst, path.clone(), &mut distinct, false);
+        explore(tunnels, &dst, path.clone(), &mut distinct, is_part_2);
     }
     distinct.len()
 }
 
-pub fn part2(tunnels: &Input) -> usize {
-    let mut distinct = HashSet::<String>::new();
-    let path: Vec<String> = vec!["start".to_owned()];
-    for dst in &tunnels["start"] {
-        explore(tunnels, &dst, path.clone(), &mut distinct, true);
-    }
-    distinct.len()
-}
+pub fn part1(tunnels: &Input) -> usize {solve(tunnels, false)}
+pub fn part2(tunnels: &Input) -> usize {solve(tunnels, true)}
