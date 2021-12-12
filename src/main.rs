@@ -1,6 +1,6 @@
 use argh::FromArgs;
 use chrono::{Utc, Datelike}; 
-use aoc2021::day_11::{input_generator, part1, part2};
+use aoc2021::day_12::{input_generator, part1, part2};
 use std::time::Instant;
 
 #[derive(FromArgs)]
