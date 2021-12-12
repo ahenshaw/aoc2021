@@ -32,9 +32,7 @@ fn do_step(grid: &mut Input) -> usize {
                 grid[y][x] += 1;
                 stack.extend(neighbors(y, x, cols, rows));
              },
-             _ => {
-                 grid[y][x] += 1;
-             }
+            _ => grid[y][x] += 1,
         }    
     }
     grid.iter_mut()
@@ -47,6 +45,5 @@ fn neighbors(y: usize, x: usize, cols: usize, rows: usize) -> impl Iterator<Item
     (-1..=1)
     .cartesian_product(-1..=1)
     .map(move |(dy, dx)| ((y as i32 + dy) as usize, (x as i32 + dx) as usize))
-    .filter(move |&coord| coord != (y, x))
-    .filter(move |(y, x)| y >= &0 && y < &rows && x >= &0 && x < &cols)
+    .filter(move |(ny, nx)| ny >= &0 && ny < &rows && nx >= &0 && nx < &cols && (ny != &y || nx != &x))
 }
